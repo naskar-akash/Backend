@@ -1,5 +1,9 @@
 import express from 'express'
+import mongoose from 'mongoose';
 import cors from 'cors'
+import { Todo } from './models/Todo.js';
+
+let conn = await mongoose.connect("mongodb://localhost:27017/todo")
 const app = express();
 const port = 3000;
 
@@ -9,6 +13,8 @@ app.use(express())
 
 app
   .get("/", (req, res) => {
+    const todo = new Todo({title:"First Todo",desc:"Todo Description",isDone:false})
+    todo.save()
     res.send("Hello World!");
   })
   .post("/", (req, res) => {
