@@ -31,7 +31,18 @@ app.get("/todos", async (req, res) => {
     let todos = await Todo.find({});
     res.status(201).json({ message: "Getting Todos!", todos });
   } catch (error) {
-    res.status(500).json({ message: "Server Error!",error:error.message });
+    res.status(500).json({ message: "Server Error!", error: error.message });
+  }
+});
+
+//Get request to get a todo by id at localhost:3000
+app.get("/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    let todos = await Todo.findById(id);
+    res.status(201).json({ message: "Getting Todos!", todos });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error!", error: error.message });
   }
 });
 
@@ -48,7 +59,7 @@ app.post("/todos", async (req, res) => {
     await todo.save();
     res.status(201).json({ message: "Todo created!", todo });
   } catch (error) {
-    res.status(500).json({ message: "Server Error!", error:error.message });
+    res.status(500).json({ message: "Server Error!", error: error.message });
   }
 });
 
@@ -65,9 +76,9 @@ app.put("/todos/:id", async (req, res) => {
     todo.desc = desc;
 
     await todo.save();
-    res.status(200).json({message: "Todo updated!", todo})
+    res.status(200).json({ message: "Todo updated!", todo });
   } catch (error) {
-    res.status(500).json({ message: "Server Error!", error:error.message });
+    res.status(500).json({ message: "Server Error!", error: error.message });
   }
 });
 
@@ -80,9 +91,9 @@ app.delete("/todos/:id", async (req, res) => {
       return res.status(404).json({ message: "Todo not found!" });
     }
     await todo.deleteOne();
-    res.status(200).json({message: "Todo deleted!", todo})
+    res.status(200).json({ message: "Todo deleted!", todo });
   } catch (error) {
-    res.status(500).json({ message: "Server Error!", error:error.message });
+    res.status(500).json({ message: "Server Error!", error: error.message });
   }
 });
 
