@@ -31,7 +31,7 @@ app.get("/todos", async (req, res) => {
     let todos = await Todo.find({});
     res.status(201).json({ message: "Getting Todos!", todos });
   } catch (error) {
-    res.status(500).json({ error: "Server Error!" });
+    res.status(500).json({ message: "Server Error!",error:error.message });
   }
 });
 
@@ -48,7 +48,7 @@ app.post("/todos", async (req, res) => {
     await todo.save();
     res.status(201).json({ message: "Todo created!", todo });
   } catch (error) {
-    res.status(500).json({ message: "Server Error!", error });
+    res.status(500).json({ message: "Server Error!", error:error.message });
   }
 });
 
@@ -67,7 +67,7 @@ app.put("/todos/:id", async (req, res) => {
     await todo.save();
     res.status(200).json({message: "Todo updated!", todo})
   } catch (error) {
-    res.status(500).json({ message: "Server Error!", error });
+    res.status(500).json({ message: "Server Error!", error:error.message });
   }
 });
 
