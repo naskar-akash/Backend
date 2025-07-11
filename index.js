@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { Todo } from "./models/Todo.js";
+import { dateTime } from "./dateTime.js";
 
 // To connect mongo Db
 await mongoose
@@ -48,14 +49,16 @@ app.get("/todos/:id", async (req, res) => {
 
 // post request to store the todos into mongodb://localhost:27017/todo
 app.post("/todos", async (req, res) => {
+  const {date,time} = dateTime();
   try {
-    const { title, desc } = req.body;
+    const { title, desc, status } = req.body;
     if (!title || !desc) {
       return res
         .status(400)
         .json({ error: "Title and description are required" });
     }
-    const todo = new Todo({ title, desc });
+
+    const todo = new Todo({ title, desc, date, time, status });
     await todo.save();
     res.status(201).json({ message: "Todo created!", todo });
   } catch (error) {
@@ -66,7 +69,8 @@ app.post("/todos", async (req, res) => {
 //  Put request for updating todos
 app.put("/todos/:id", async (req, res) => {
   const { id } = req.params;
-  const { title, desc } = req.body;
+  const { title, desc, status } = req.body;
+  const {date,time} = dateTime();
   try {
     const todo = await Todo.findById(id);
     if (!todo) {
@@ -74,6 +78,9 @@ app.put("/todos/:id", async (req, res) => {
     }
     todo.title = title;
     todo.desc = desc;
+    todo.title = date;
+    todo.time = time;
+    todo.status = status;
 
     await todo.save();
     res.status(200).json({ message: "Todo updated!", todo });

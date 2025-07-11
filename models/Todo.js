@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
+
 const todoSchema = new Schema({
-  title: String, // String is shorthand for {type: String}
+  title: String,
   desc: String,
-  isDone: Boolean
+  date: String,
+  time: String,
+  status: { type: String, default: "Undo" },
 });
 
 export const Todo = mongoose.model('Todo', todoSchema);
